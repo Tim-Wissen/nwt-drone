@@ -110,5 +110,5 @@ void loop() {
   drone.setSpeed(speed);      // sendet Geschwindigkeit [input] über Objektinstanz 'drone' an Klasse 'FlightPresets' der Library 'FlightPresets.h'
   drone.printSpeed();         // liest Geschwindigkeit der Klasse 'FlightPresets' der Library 'FlightPresets.h' aus und gibt sie in seriellem Monitor aus
 
-  delay(500);
+  delay(1000);
 }
