@@ -121,137 +121,30 @@ void calibrateGyro() {
 }
 
 
-//Unterprogramm E für Integration von Acceleration zu Position
-void Position_Integration() {
-  mEt01 = 0;
+//Unterprogramm E zum Umrechnen der 3 Achsenwerte in 4 Propellerwerte
+void calculateGyro(){
+  x = map(GXOut, -32000, 32000, -100, 100);
+  y = map(GYOut, -32000, 32000, -100, 100);
+  z = map(GZOut, -32000, 32000, -100, 100);
 
-  for (mEt01 = 0; mEt01 < 11; mEt01 +=2) {
-    
+  fl = y + x - z;
+  fr = y - x + z;
+  bl = - y + x + z;
+  br = - y - x - z;
 
-    if (mEt01 == 2 && E01_Rotation == 1) {
-      Ex01_XGes = Ex01_XGes - Ex01_X;
-      Ex01_YGes = Ex01_YGes - Ex01_Y;
-      Ex01_ZGes = Ex01_ZGes - Ex01_Z;
-
-      Ex02_XGes = Ex02_XGes - Ex01_X;
-      Ex02_YGes = Ex02_YGes - Ex01_Y;
-      Ex02_ZGes = Ex02_ZGes - Ex01_Z;
-
-      readGyro();
-      Ex01_X = GXOut;
-      Ex01_Y = GYOut;
-      Ex01_Z = GZOut;
-
-      Ex01_XGes = Ex01_X + Ex01_X;
-      Ex01_YGes = Ex01_Y + Ex01_Y;
-      Ex01_ZGes = Ex01_Z + Ex01_Z;
-      
-      Ex02_XGes = Ex02_X + Ex01_X;
-      Ex02_YGes = Ex02_Y + Ex01_Y;
-      Ex02_ZGes = Ex02_Z + Ex01_Z;
-
-      Position_Integration_2();         // => \sub-sub.ino\Position_Integration_2
-    }
-
-    else if (mEt01 == 4 && E01_Rotation == 1) {
-      Ex02_XGes = Ex02_XGes - Ex02_X;
-      Ex02_YGes = Ex02_YGes - Ex02_Y;
-      Ex02_ZGes = Ex02_ZGes - Ex02_Z;
-
-      Ex03_XGes = Ex03_XGes - Ex02_X;
-      Ex03_YGes = Ex03_YGes - Ex02_Y;
-      Ex03_ZGes = Ex03_ZGes - Ex02_Z;
-
-      readGyro();
-      Ex02_X = GXOut;
-      Ex02_Y = GYOut;
-      Ex02_Z = GZOut;
-
-      Ex02_XGes = Ex02_X + Ex02_X;
-      Ex02_YGes = Ex02_Y + Ex02_Y;
-      Ex02_ZGes = Ex02_Z + Ex02_Z;
-      
-      Ex03_XGes = Ex03_X + Ex02_X;
-      Ex03_YGes = Ex03_Y + Ex02_Y;
-      Ex03_ZGes = Ex03_Z + Ex02_Z;
-
-      Position_Integration_2();         // => \sub-sub.ino\Position_Integration_2
-    }
-
-    else if (mEt01 == 6 && E01_Rotation == 1) {
-      Ex03_XGes = Ex03_XGes - Ex03_X;
-      Ex03_YGes = Ex03_YGes - Ex03_Y;
-      Ex03_ZGes = Ex03_ZGes - Ex03_Z;
-      
-      Ex04_XGes = Ex04_XGes - Ex03_X;
-      Ex04_YGes = Ex04_YGes - Ex03_Y;
-      Ex04_ZGes = Ex04_ZGes - Ex03_Z;
-
-      readGyro();
-      Ex03_X = GXOut;
-      Ex03_Y = GYOut;
-      Ex03_Z = GZOut;
-
-      Ex03_XGes = Ex03_X + Ex03_X;
-      Ex03_YGes = Ex03_Y + Ex03_Y;
-      Ex03_ZGes = Ex03_Z + Ex03_Z;
-      
-      Ex04_XGes = Ex04_X + Ex03_X;
-      Ex04_YGes = Ex04_Y + Ex03_Y;
-      Ex04_ZGes = Ex04_Z + Ex03_Z;
-
-      Position_Integration_2();         // => \sub-sub.ino\Position_Integration_2
-    }
-
-    else if (mEt01 == 8 && E01_Rotation == 1) {
-      Ex04_XGes = Ex04_XGes - Ex03_X;
-      Ex04_YGes = Ex04_YGes - Ex03_Y;
-      Ex04_ZGes = Ex04_ZGes - Ex03_Z;
-      
-      Ex05_XGes = Ex05_XGes - Ex03_X;
-      Ex05_YGes = Ex05_YGes - Ex03_Y;
-      Ex05_ZGes = Ex05_ZGes - Ex03_Z;
-      
-      readGyro();
-      Ex04_X = GXOut;
-      Ex04_Y = GYOut;
-      Ex04_Z = GZOut;
-
-      Ex04_XGes = Ex04_X + Ex04_X;
-      Ex04_YGes = Ex04_Y + Ex04_Y;
-      Ex04_ZGes = Ex04_Z + Ex04_Z;
-      
-      Ex05_XGes = Ex05_X + Ex04_X;
-      Ex05_YGes = Ex05_Y + Ex04_Y;
-      Ex05_ZGes = Ex05_Z + Ex04_Z;
-
-      Position_Integration_2();         // => \sub-sub.ino\Position_Integration_2
-    }
-
-    else if (mEt01 == 10 && E01_Rotation == 1) {
-      Ex05_XGes = Ex05_XGes - Ex05_X;
-      Ex05_YGes = Ex05_YGes - Ex05_Y;
-      Ex05_ZGes = Ex05_ZGes - Ex05_Z;
-      
-      Ex01_XGes = Ex01_XGes - Ex05_X;
-      Ex01_YGes = Ex01_YGes - Ex05_Y;
-      Ex01_ZGes = Ex01_ZGes - Ex05_Z;
-
-      readGyro();
-      Ex05_X = GXOut;
-      Ex05_Y = GYOut;
-      Ex05_Z = GZOut;
-
-      Ex05_XGes = Ex05_X + Ex05_X;
-      Ex05_YGes = Ex05_Y + Ex05_Y;
-      Ex05_ZGes = Ex05_Z + Ex05_Z;
-      
-      Ex01_XGes = Ex01_X + Ex05_X;
-      Ex01_YGes = Ex01_Y + Ex05_Y;
-      Ex01_ZGes = Ex01_Z + Ex05_Z;
-
-      Position_Integration_2();         // => \sub-sub.ino\Position_Integration_2
-    }
-  }
+  flp = speed + fl * 1/1000;
+  frp = speed + fr * 1/1000;
+  blp = speed + bl * 1/1000;
+  brp = speed + br * 1/1000;
 }
 
+
+//Unterprogramm F zur endgültigen Ausgabe der Flugdaten an die Motoren
+void flydrone(){
+  for(F_01, F_01 < 1000, F_01++){
+  analogWrite(P_fl, flp);
+  analogWrite(P_fr, frp);
+  analogWrite(P_bl, blp);
+  analogWrite(P_br, brp);
+  }
+}

@@ -1,13 +1,15 @@
 #include <Wire.h>
 #include <Arduino.h>
-#include <FlightPresets.h>
-
-FlightPresets drone;          // Objektinstanz der Klasse 'FlightPresets' mit dem Namen 'drone' wird erstellt
 
 const int adrMPU = 0x68;      //Adresse des MPU
 
 const int adrPWR = 0x6B;      //Adresse des Power-Management
 const int adrGXOutH = 0x43;   //Adresse GYRO_XOUT[15:8] (folgende 5 Register bis GYRO_ZOUT[7:0])
+
+const byte P_fl = 3;         //Festlegung des Propellers fl als PIN-OUTPUT 3
+const byte P_fr = 5;         //Festlegung des Propellers fr als PIN-OUTPUT 5
+const byte P_bl = 6;         //Festlegung des Propellers bl als PIN-OUTPUT 6
+const byte P_br = 9;         //Festlegung des Propellers br als PIN-OUTPUT 9
 
 long GXOut;                //Wert GYRO_X_OUT
 long GYOut;                //Wert GYRO_Y_OUT
@@ -33,63 +35,26 @@ long GXF;          //Finaler Wert GYRO_X
 long GYF;          //Finaler Wert GYRO_Y
 long GZF;          //Finaler Wert GYRO_Z
 
+int x = 0;
+int y = 0;
+int z = 0;
+
 int t01 = 1000;               //Zeit-Variable 1
 int t02 = 0;                  //Zeit-Variable 2
-
-int mEt01 = 0;          //Zeit-Variable 1 [millis();] -> \sub.ino\calculatePosition(E)
-
-int Ex01_X = 0;         //temp. Variable == GXOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-int Ex02_X = 0;         //temp. Variable == GXOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-int Ex03_X = 0;         //temp. Variable == GXOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-int Ex04_X = 0;         //temp. Variable == GXOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-int Ex05_X = 0;         //temp. Variable == GXOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-
-int Ex01_Y = 0;         //temp. Variable == GYOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-int Ex02_Y = 0;         //temp. Variable == GYOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-int Ex03_Y = 0;         //temp. Variable == GYOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-int Ex04_Y = 0;         //temp. Variable == GYOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-int Ex05_Y = 0;         //temp. Variable == GYOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-
-int Ex01_Z = 0;         //temp. Variable == GZOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-int Ex02_Z = 0;         //temp. Variable == GZOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-int Ex03_Z = 0;         //temp. Variable == GZOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-int Ex04_Z = 0;         //temp. Variable == GZOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-int Ex05_Z = 0;         //temp. Variable == GZOut für 1. Integrationlong -> \sub.ino\calculatePosition(E)
-
-int Ex01_XGes = 0;          //temp. Gesamtwert GXOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-int Ex02_XGes = 0;          //temp. Gesamtwert GXOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-int Ex03_XGes = 0;          //temp. Gesamtwert GXOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-int Ex04_XGes = 0;          //temp. Gesamtwert GXOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-int Ex05_XGes = 0;          //temp. Gesamtwert GXOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-
-int Ex01_YGes = 0;          //temp. Gesamtwert GYOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-int Ex02_YGes = 0;          //temp. Gesamtwert GYOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-int Ex03_YGes = 0;          //temp. Gesamtwert GYOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-int Ex04_YGes = 0;          //temp. Gesamtwert GYOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-int Ex05_YGes = 0;          //temp. Gesamtwert GYOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-
-int Ex01_ZGes = 0;          //temp. Gesamtwert GZOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-int Ex02_ZGes = 0;          //temp. Gesamtwert GZOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-int Ex03_ZGes = 0;          //temp. Gesamtwert GZOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-int Ex04_ZGes = 0;          //temp. Gesamtwert GZOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-int Ex05_ZGes = 0;          //temp. Gesamtwert GZOut (5 Schritte) für 1. & 2. Integration -> \sub.ino\calculatePosition(E)
-
-int Ex11_X = 0;         //temp. Gesamtwert GXOut für 2. Integration -> \sub-sub.ino\Position_Integration_2(E_A)
-int Ex11_Y = 0;         //temp. Gesamtwert GYOut für 2. Integration
-int Ex11_Z = 0;         //temp. Gesamtwert GZOut für 2. Integration
-
-bool E01_Rotation;          //Anzeige, ob Gyroskop sich bewegt \sub.ino\calculatePosition(E)
 
 int Dt01 = 0;                 //Zeit Variable 1 -> \sub.ino\calibrateGyro(D)
 int Dt02 = 100;               //Zeit Variable 2 -> \sub.ino\calibrateGyro(D)
 int Dt03 = 2000;              //Zeit Variable 3 -> \sub.ino\calibrateGyro(D)
 
-int E_At01 = 10;          //Zeit-Variable 1 -> \sub-sub.ino\Position_Integration(E_A)
-
 bool Dx1 = 0;                 //allg. Variable 1 -> \sub.ino\calibrateGyro(D)
 bool Dx2 = 0;                 //allg. Variable 2 -> \sub.ino\calibrateGyro(D)
 
-int speed;          //Geschwindigkeitsvariable
+unsigned int F_01;
+
+const int speed = 50;          //Geschwindigkeitsvariable
+
+int fl, fr, bl, br;             //Variable, in der drei Achsenwerte zu 4 Propellerwerte zugerechnet werden
+int flp, frp, blp, brp;         //Variable, die die endgültigen Propellerwerte angeben (einschl. Grundgeschw.)
 
 
 
@@ -105,10 +70,9 @@ void loop() {
   startGyro();                // => \sub.ino\startGyro(A)
   calibrateGyro();            // => \sub.ino\calibrateGyro(D)
   readGyro();                 // => \sub.ino\readGyro(B)
-  Position_Integration();   // => \sub.ino\Position_Integration_1(E)
+  calculateGyro();            // => \sub.ino\calculateGyro(E)
   writeGyro();                // => \sub.ino\writeGyro(C)
-  drone.setSpeed(speed);      // sendet Geschwindigkeit [input] über Objektinstanz 'drone' an Klasse 'FlightPresets' der Library 'FlightPresets.h'
-  drone.printSpeed();         // liest Geschwindigkeit der Klasse 'FlightPresets' der Library 'FlightPresets.h' aus und gibt sie in seriellem Monitor aus
+  flydrone();                 // => \sub.ino\flydrone(F)
 
   delay(1000);
 }
