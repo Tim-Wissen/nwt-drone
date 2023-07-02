@@ -16,7 +16,7 @@ Gerne können Sie mir Vorschläge, Ideen, fertige Codes zur Erweiterung des Proj
 
 ## Lizenz
 
-This project is licensed under the [MIT-licence](https://opensource.org/licenses/MIT)
+This project is licensed under the [MIT-licence](https://opensource.org/licenses/MIT)  
 *for more information, please refer to "LICENCE.md", found on the homepage of this GitHub-repository or click at the link above*
 
 ## Autoren
