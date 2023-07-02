@@ -21,12 +21,12 @@ This project is licensed under the [MIT-licence](https://opensource.org/licenses
 
 ## Autoren
 
-Tim Wissen
-Tobias Feix
+Tim Wissen  
+Tobias Feix  
 Niklas Stehle
 
 ## Kontakt
 
-Tim Wissen:
+Tim Wissen:  
   e-mail: timwissensocial@gmail.com
 
