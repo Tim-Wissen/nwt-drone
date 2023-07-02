@@ -98,9 +98,9 @@ void calibrateGyro() {
 
 //Unterprogramm E zum Umrechnen der 3 Achsenwerte in 4 Propellerwerte
 void calculateGyro(){
-  x = map(GXOut, -32000, 32000, -100, 100);
-  y = map(GYOut, -32000, 32000, -100, 100);
-  z = map(GZOut, -32000, 32000, -100, 100);
+  x = map(GXOut, minGX, maxGX, -100, 100);
+  y = map(GYOut, minGY, maxGY, -100, 100);
+  z = map(GZOut, minGZ, maxGZ, -100, 100);
 
   fl = y + x - z;
   fr = y - x + z;
