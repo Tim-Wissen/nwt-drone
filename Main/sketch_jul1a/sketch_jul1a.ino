@@ -1,5 +1,10 @@
 #include <Wire.h>
 #include <Arduino.h>
+#include <Adafruit_MPU6050.h>
+#include <Adafruit_Sensor.h>
+
+Adafruit_MPU6050 mpu;         //Erstellt Objektinstanz 'mpu' der Library 'Adafruit_MPU6050.h'
+sensors_event_t event;          //Erstellt Ojektinstanz 'event' der Library 'Adafruit_Sensor.h'
 
 const int adrMPU = 0x68;      //Adresse des MPU
 

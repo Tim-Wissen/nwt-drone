@@ -1,5 +1,7 @@
 //Unterprogramm A zum Starten des Slaves
 void startGyro() {
+  mpu.begin();
+  delay(10);
   Wire.beginTransmission(adrMPU);
   Wire.write(adrPWR);
   Wire.write(0);
@@ -9,36 +11,10 @@ void startGyro() {
 
 //Unterprogramm B zum Auslesen der Gyroskop-Werte
 void readGyro() {
-  Wire.beginTransmission(adrMPU);
-  Wire.write(adrGXOutH);
-  Wire.endTransmission(false);
-  Wire.requestFrom(adrMPU, 6, false);
-
-  GXOut = Wire.read() << 8 | Wire.read();
-  GYOut = Wire.read() << 8 | Wire.read();
-  GZOut = Wire.read() << 8 | Wire.read();
-
-  readGyro_checkX();  // => \sub-sub.ino\readyGyro_checkX(B_A)
-  readGyro_checkY();  // => \sub-sub.ino\readyGyro_checkY(B_B)
-  readGyro_checkZ();  // => \sub-sub.ino\readyGyro_checkZ(B_C)
-
-  if (GXOut < maxGX && GXOut > minGX){
-    GXOut = 0;
-    E01_Rotation = 0;
-  }
-  else E01_Rotation = 1;
-
-  if (GYOut < maxGY && GYOut > minGY){
-    GYOut = 0;
-    E01_Rotation = 0;
-  }
-  else E01_Rotation = 1;
-
-  if (GZOut < maxGZ && GZOut > minGZ){
-    GZOut = 0;
-    E01_Rotation = 0;
-  }
-  else E01_Rotation = 1;
+  mpu.getGyroSensor()->getEvent(&event);
+  GXOut = event.gyro.x;
+  GYOut = event.gyro.y;
+  GZOut = event.gyro.z;
 }
 
 
@@ -86,7 +62,6 @@ void calibrateGyro() {
     GYPos = 0;
     GZPos = 0;
 
-    startGyro();
     readGyro();
     if (GXOut <= minGX) minGX = GXOut;
     if (GXOut >= maxGX) maxGX = GXOut;
@@ -136,6 +111,11 @@ void calculateGyro(){
   frp = speed + fr * 1/1000;
   blp = speed + bl * 1/1000;
   brp = speed + br * 1/1000;
+
+  if(fl < 0) fl = speed;
+  if(fr < 0) fr = speed;
+  if(bl < 0) bl = speed;
+  if(br < 0) br = speed;
 }
 
 
