@@ -1,0 +1,3 @@
+Projekt: Drohne, die durch Fingerbewegungen gesteuert werden kann
+
+Team: Niklas Stehle, Tobias Feix, Tim Wissen
