@@ -1,4 +1,4 @@
-# NWT-DRONE
+# NWT-DROHNE
 
 Schulprojekt einer per Gyroskop-gesteuerten Drohne (Quadropter)
 
