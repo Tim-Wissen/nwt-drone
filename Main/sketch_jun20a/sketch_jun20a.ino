@@ -7,11 +7,11 @@ FlightPresets drone;          // Objektinstanz der Klasse 'FlightPresets' mit de
 const int adrMPU = 0x68;      //Adresse des MPU
 
 const int adrPWR = 0x6B;      //Adresse des Power-Management
-const int adrGXOutH = 0x43;   //Adresse GYRO_XOUT[15:8] (folgende 5 Register bis GYRO_ZOUT[7:0])
+const int adrGXOutH = 0x3B;   //Adresse GYRO_XOUT[15:8] (folgende 5 Register bis GYRO_ZOUT[7:0])
 
-long GXOut;                //Wert GYRO_X_OUT
-long GYOut;                //Wert GYRO_Y_OUT
-long GZOut;                //Wert GYRO_Z_OUT
+int16_t GXOut;                //Wert GYRO_X_OUT
+int16_t GYOut;                //Wert GYRO_Y_OUT
+int16_t GZOut;                //Wert GYRO_Z_OUT
 
 long GyX;         //Wert GYRO_X
 long GyY;         //Wert GYRO_Y
@@ -102,17 +102,18 @@ int speed;          //Geschwindigkeitsvariable
 void setup() {
   Serial.begin(9600);
   Wire.begin();
+  startGyro();                // => \sub.ino\startGyro(A)
 }
 
 
 void loop() {
-  startGyro();                // => \sub.ino\startGyro(A)
-  calibrateGyro();            // => \sub.ino\calibrateGyro(D)
+
+  //calibrateGyro();            // => \sub.ino\calibrateGyro(D)
   readGyro();                 // => \sub.ino\readGyro(B)
-  Position_Integration();   // => \sub.ino\Position_Integration_1(E)
+  //Position_Integration();   // => \sub.ino\Position_Integration_1(E)
   writeGyro();                // => \sub.ino\writeGyro(C)
-  drone.setSpeed(speed);      // sendet Geschwindigkeit [input] über Objektinstanz 'drone' an Klasse 'FlightPresets' der Library 'FlightPresets.h'
-  drone.printSpeed();         // liest Geschwindigkeit der Klasse 'FlightPresets' der Library 'FlightPresets.h' aus und gibt sie in seriellem Monitor aus
+  //drone.setSpeed(speed);      // sendet Geschwindigkeit [input] über Objektinstanz 'drone' an Klasse 'FlightPresets' der Library 'FlightPresets.h'
+  //drone.printSpeed();         // liest Geschwindigkeit der Klasse 'FlightPresets' der Library 'FlightPresets.h' aus und gibt sie in seriellem Monitor aus
 
   delay(1000);
 }

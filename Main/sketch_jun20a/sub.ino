@@ -3,7 +3,7 @@ void startGyro() {
   Wire.beginTransmission(adrMPU);
   Wire.write(adrPWR);
   Wire.write(0);
-  Wire.endTransmission(false);
+  Wire.endTransmission(true);
 }
 
 
@@ -22,27 +22,27 @@ void readGyro() {
   GyY = GYOut;
   GyZ = GZOut;
 
-  readGyro_checkX();  // => \sub-sub.ino\readyGyro_checkX(B_A)
-  readGyro_checkY();  // => \sub-sub.ino\readyGyro_checkY(B_B)
-  readGyro_checkZ();  // => \sub-sub.ino\readyGyro_checkZ(B_C)
+  // readGyro_checkX();  // => \sub-sub.ino\readyGyro_checkX(B_A)
+  // readGyro_checkY();  // => \sub-sub.ino\readyGyro_checkY(B_B)
+  // readGyro_checkZ();  // => \sub-sub.ino\readyGyro_checkZ(B_C)
 
-  if (GXOut < maxGX && GXOut > minGX){
-    GXOut = 0;
-    E01_Rotation = 0;
-  }
-  else E01_Rotation = 1;
+  // if (GXOut < maxGX && GXOut > minGX){
+  //   GXOut = 0;
+  //   E01_Rotation = 0;
+  // }
+  // else E01_Rotation = 1;
 
-  if (GYOut < maxGY && GYOut > minGY){
-    GYOut = 0;
-    E01_Rotation = 0;
-  }
-  else E01_Rotation = 1;
+  // if (GYOut < maxGY && GYOut > minGY){
+  //   GYOut = 0;
+  //   E01_Rotation = 0;
+  // }
+  // else E01_Rotation = 1;
 
-  if (GZOut < maxGZ && GZOut > minGZ){
-    GZOut = 0;
-    E01_Rotation = 0;
-  }
-  else E01_Rotation = 1;
+  // if (GZOut < maxGZ && GZOut > minGZ){
+  //   GZOut = 0;
+  //   E01_Rotation = 0;
+  // }
+  // else E01_Rotation = 1;
 }
 
 
