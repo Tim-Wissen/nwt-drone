@@ -3,7 +3,7 @@ void startGyro() {
   Wire.beginTransmission(adrMPU);
   Wire.write(adrPWR);
   Wire.write(0);
-  Wire.endTransmission();
+  Wire.endTransmission(false);
 }
 
 
@@ -12,11 +12,15 @@ void readGyro() {
   Wire.beginTransmission(adrMPU);
   Wire.write(adrGXOutH);
   Wire.endTransmission(false);
-  Wire.requestFrom(adrMPU, 6, false);
+  Wire.requestFrom(adrMPU, 6, true);
 
   GXOut = Wire.read() << 8 | Wire.read();
   GYOut = Wire.read() << 8 | Wire.read();
   GZOut = Wire.read() << 8 | Wire.read();
+
+  GyX = GXOut;
+  GyY = GYOut;
+  GyZ = GZOut;
 
   readGyro_checkX();  // => \sub-sub.ino\readyGyro_checkX(B_A)
   readGyro_checkY();  // => \sub-sub.ino\readyGyro_checkY(B_B)

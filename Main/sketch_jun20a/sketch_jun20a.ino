@@ -13,6 +13,10 @@ long GXOut;                //Wert GYRO_X_OUT
 long GYOut;                //Wert GYRO_Y_OUT
 long GZOut;                //Wert GYRO_Z_OUT
 
+long GyX;         //Wert GYRO_X
+long GyY;         //Wert GYRO_Y
+long GyZ;         //Wert GYRO_Z
+
 long GXPos;          //Wert GYRO_X_POSITION
 long GYPos;          //Wert GYRO_Y_POSITION
 long GZPos;          //Wert GYRO_Z_POSITION

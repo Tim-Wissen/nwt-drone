@@ -54,8 +54,6 @@ int Dt03 = 2000;              //Zeit Variable 3 -> \sub.ino\calibrateGyro(D)
 bool Dx1 = 0;                 //allg. Variable 1 -> \sub.ino\calibrateGyro(D)
 bool Dx2 = 0;                 //allg. Variable 2 -> \sub.ino\calibrateGyro(D)
 
-byte E_scale = 50;          //Skalierungs-Variable -> \sub.ino\calculateGyro(E)
-
 unsigned int F_01;
 
 const int speed = 50;          //Geschwindigkeitsvariable

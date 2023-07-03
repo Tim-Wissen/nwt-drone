@@ -57,30 +57,11 @@ void readGyro_checkZ() {
     Serial.print(GZF);
     Serial.print("   /   ");
     Serial.println(cGZ);
-  } else {
+  } 
+  else {
     GZF = cGZ;
     Serial.print(GZF);
     Serial.print("   /   ");
     Serial.println(cGZ);
   }
-}
-
-
-//Unterprogramm E_A -> berechnet 2.Integration der X-, Y-, und Z-Werte
-void Position_Integration_2(){
-  GXPos = GXPos - Ex11_X;    // Aktualisierung der Position der X-Achse
-  GYPos = GYPos - Ex11_Y;    // Aktualisierung der Position der Y-Achse
-  GZPos = GZPos - Ex11_Z;    // Aktualisierung der Position der Z-Achse
-  
-  delay(E_At01);
-
-  Ex11_X = Ex01_XGes + Ex02_XGes + Ex03_XGes + Ex04_XGes + Ex05_XGes;
-  Ex11_Y = Ex01_YGes + Ex02_YGes + Ex03_YGes + Ex04_YGes + Ex05_YGes;
-  Ex11_Y = Ex01_YGes + Ex02_YGes + Ex03_YGes + Ex04_YGes + Ex05_YGes;
-
-  delay(E_At01);
-
-  GXPos = GXPos + Ex11_X;    // Aktualisierung der Position der X-Achse
-  GYPos = GYPos + Ex11_Y;    // Aktualisierung der Position der Y-Achse
-  GZPos = GZPos + Ex11_Z;    // Aktualisierung der Position der Z-Achse
 }
