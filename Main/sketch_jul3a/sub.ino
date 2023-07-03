@@ -27,13 +27,14 @@ void writeGyro() {
   Serial.print("   Gyro Z:   ");
   Serial.println(GZOut);
 
-  Serial.print("POS X:   ");
-  Serial.print(GXPos);
-  Serial.print("   POS Y:   ");
-  Serial.print(GYPos);
-  Serial.print("   POS Z:   ");
-  Serial.println(GZPos);
-  Serial.println("");
+  Serial.print(flp);
+  Serial.print(" / ");
+  Serial.print(frp);
+  Serial.print(" / ");
+  Serial.print(blp);
+  Serial.print(" / ");
+  Serial.print(brp);
+  Serial.print(" / ");
 }
 
 
@@ -107,21 +108,26 @@ void calculateGyro(){
   bl = - y + x + z;
   br = - y - x - z;
 
-  flp = speed + fl * 1/1000;
-  frp = speed + fr * 1/1000;
-  blp = speed + bl * 1/1000;
-  brp = speed + br * 1/1000;
+  fl *= E_scale;
+  fr *= E_scale;
+  bl *= E_scale;
+  br *= E_scale;
 
-  if(fl < 0) fl = speed;
-  if(fr < 0) fr = speed;
-  if(bl < 0) bl = speed;
-  if(br < 0) br = speed;
+  flp = speed + fl; //* 1/1000;
+  frp = speed + fr; //* 1/1000;
+  blp = speed + bl; //* 1/1000;
+  brp = speed + br; //* 1/1000;
+
+  // if(fl < 0) fl = speed;
+  // if(fr < 0) fr = speed;
+  // if(bl < 0) bl = speed;
+  // if(br < 0) br = speed;
 }
 
 
 //Unterprogramm F zur endgültigen Ausgabe der Flugdaten an die Motoren
 void flydrone(){
-  for(F_01, F_01 < 1000, F_01++){
+  for(F_01; F_01 < 1000; F_01++){
   analogWrite(P_fl, flp);
   analogWrite(P_fr, frp);
   analogWrite(P_bl, blp);
